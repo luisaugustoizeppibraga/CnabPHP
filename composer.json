@@ -1,15 +1,49 @@
 {
-    "name": "luisaugustobraga/cnab_yaml",
+    "name": "versatecnologia/cnab_php",
     "type": "library",
-    "description": "Especificação do formato Cnab240 e Cnab400 traduzida para Yaml",
-    "keywords": ["boleto", "remessa", "retorno", "cnab", "cnab240", "cnab400", "edi", "yaml"],
+    "description": "Projeto para criar arquivos de remessas e processar arquivos de retorno no formato CNAB",
+    "keywords": ["boleto", "remessa", "retorno"],
     "licence": "MIT",
     "authors": [
         {
-            "name": "Luis Augusto",
+            "name": "Anderson Danilo",
+            "email": "andersondanilo.souza@gmail.com"
+        },
+        {
+            "name": "Fernando Dutra Neres",
+            "email": "fernando@inova2b.com.br"
+        },
+        {
+            "name": "Matheus Ferreira Silva",
+            "email": "santana.matheusferreira@gmail.com"
+        },
+        {
+            "name": "Eduardo Jose Luciano",
+            "email": "edujose35@gmail.com"
+        },
+        {
+            "name": "Luis Augusto Braga",
             "email": "luisaugustobraga@gmail.com"
         }
     ],
-    "require": {},
-    "config": {}
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "phpunit/php-code-coverage": "1.2.*",
+        "codeclimate/php-test-reporter": "dev-master"
+    },
+    "require": {
+        "luisaugustobraga/cnab_yaml":"dev-master",
+        "php": ">=5.3.0",
+        "mustangostang/spyc": "0.5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cnab\\": "src/Cnab"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
