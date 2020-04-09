@@ -242,10 +242,14 @@ class Arquivo implements \Cnab\Remessa\IArquivo
         $detalhe->segmento_p->data_emissao = $dateCadastro;
         $detalhe->segmento_p->codigo_juros_mora = isset($boleto['codigo_juros_mora'])?$boleto['codigo_juros_mora']:1; // 1 = Por dia, 2= Taxa Mensal, 3= Isento
 
-        if (!empty($boleto['dias_iniciar_contagem_juros']) && is_numeric($boleto['dias_iniciar_contagem_juros'])) {
-            $dateJurosMora->modify("+{$boleto['dias_iniciar_contagem_juros']} days");
-        } else {
-            $dateJurosMora->modify('+1 day');
+        if ($detalhe->segmento_p->codigo_juros_mora == 3){
+            $dateJurosMora = '00000000';
+        }else{
+            if (!empty($boleto['dias_iniciar_contagem_juros']) && is_numeric($boleto['dias_iniciar_contagem_juros'])) {
+                $dateJurosMora->modify("+{$boleto['dias_iniciar_contagem_juros']} days");
+            } else {
+                $dateJurosMora->modify('+1 day');
+            }
         }
 
         $detalhe->segmento_p->data_juros_mora = $dateJurosMora;
