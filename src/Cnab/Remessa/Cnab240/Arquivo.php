@@ -275,6 +275,7 @@ class Arquivo implements \Cnab\Remessa\IArquivo
             $detalhe->segmento_p->prazo_protesto = 0;
         }
 
+        //Código para Baixa / Devolução
         if ($this->codigo_banco == \Cnab\Banco::BANCO_DO_BRASIL) {
             // Campo não tratado pelo sistema. Informar 'zeros'.
             // O sistema considera a informação que foi cadastrada na
@@ -282,19 +283,26 @@ class Arquivo implements \Cnab\Remessa\IArquivo
             $detalhe->segmento_p->codigo_baixa = 0;
             $detalhe->segmento_p->prazo_baixa = 0;
         } else {
-            if(isset($boleto['baixar_apos_dias'])) {
-                if($boleto['baixar_apos_dias'] === false) {
-                    // não baixar / devolver
+
+            $detalhe->segmento_p->codigo_baixa = 0;
+            $detalhe->segmento_p->prazo_baixa = 0;
+
+            if(isset($boleto['codigo_baixa']) && isset($boleto['prazo_baixa'])) {
+                if ($boleto['codigo_baixa'] == 1) {
+                    //'1' = Baixar / Devolver - Baixa Automática
+                    $detalhe->segmento_p->codigo_baixa = 1;
+                    $detalhe->segmento_p->prazo_baixa = $boleto['prazo_baixa'];
+                } elseif ($boleto['codigo_baixa'] == 2) {
+                    // '2' = Não Baixar / Não Devolver
                     $detalhe->segmento_p->codigo_baixa = 2;
                     $detalhe->segmento_p->prazo_baixa = 0;
-                } else {
-                    // baixa automática
-                    $detalhe->segmento_p->codigo_baixa = 1;
-                    $detalhe->segmento_p->prazo_baixa = $boleto['baixar_apos_dias'];
+                } elseif ($boleto['codigo_baixa'] == 3) {
+                    // Cancelar Prazo para Baixa / Devolução
+                    // (somente válido p/ CódigoMovimento Remessa = '31' - Descrição C004)
+                    // Precisa implementar!
+                    $detalhe->segmento_p->codigo_baixa = 0;
+                    $detalhe->segmento_p->prazo_baixa = 0;
                 }
-            } else {
-                $detalhe->segmento_p->codigo_baixa = 0;
-                $detalhe->segmento_p->prazo_baixa = 0;
             }
         }
 
